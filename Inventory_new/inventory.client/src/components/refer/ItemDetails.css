@@ -1,0 +1,97 @@
+body {
+  background: #cfe3f8;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.item-container {
+  width: 1000px;
+  margin: 10px auto;
+  background: #dbeafe;
+  padding: 10px;
+  border: 1px solid #9db7d8;
+}
+
+.window-title {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.content {
+  display: flex;
+  gap: 20px;
+}
+
+.form-area {
+  flex: 1;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.row label {
+  width: 130px;
+  font-size: 12px;
+}
+
+.row input,
+.row select {
+  width: 180px;
+  height: 22px;
+  border: 1px solid #7f9db9;
+  padding: 2px 4px;
+  font-size: 12px;
+}
+
+.lookup {
+  margin-left: 4px;
+  height: 22px;
+  width: 26px;
+  cursor: pointer;
+}
+
+.right-panel {
+  width: 280px;
+}
+
+.image-box {
+  height: 180px;
+  border: 1px solid #9db7d8;
+  background: #eaf2ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.image-btn {
+  width: 40px;
+  height: 30px;
+}
+
+.side-fields .row label {
+  width: 110px;
+}
+
+.rate-table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.rate-table th {
+  background: #e5eefc;
+  border: 1px solid #9db7d8;
+  font-size: 12px;
+  padding: 4px;
+}
+
+.rate-table td {
+  height: 22px;
+  border: 1px solid #9db7d8;
+  font-size: 12px;
+  padding: 2px 4px;
+}
