@@ -42,6 +42,7 @@ import PurchaseIndex from './components/Operations/Opening/Bills/PurchaseIndex.j
 import SalesPointIndex from './components/Operations/Opening/SalespointIndex.jsx';
 import PurchaseReturn from './components/Purchases/forms/PurchaseReturn.jsx';
 import PurchaseOrderIndex from './components/Purchases/PurchaseOrderIndex.jsx';
+import SalesReturnIndex from './components/Sales/SalesReturnIndex.jsx';
 
 
 
@@ -67,6 +68,7 @@ function App() {
               <Route path="purchases/order" element={<PurchaseOrderIndex />} />
 
               <Route path="sales" element={<Sales />} />
+              <Route path="sales/return" element={<SalesReturnIndex />} />
               <Route path="masters/category-groups" element={<CategoryGrpIndex />} />
               <Route path="masters/categories" element={<CategoryIndex />} />
               <Route path="masters/brand-names" element={<BrandIndex />} />

@@ -26,6 +26,7 @@ const Layout = () => {
   const [isBillsSubMenuOpen, setIsBillsSubMenuOpen] = useState(false);
 
   const [isPurchaseMenuOpen, setIsPurchaseMenuOpen] = useState(false);
+  const [isSalesMenuOpen, setIsSalesMenuOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
@@ -473,11 +474,46 @@ const Layout = () => {
               </li>
 
               <li>
-                <NavLink to="/sales" className={getNavItemClass}>
+                <div
+                  className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors duration-200 group relative text-sm
+                  ${
+                    location.pathname.startsWith("/sales")
+                      ? "bg-blue-600 text-white font-medium"
+                      : "text-slate-300 hover:bg-slate-700 hover:text-white"
+                  }`}
+                  onClick={() =>
+                    !collapsed && setIsSalesMenuOpen(!isSalesMenuOpen)
+                  }
+                >
                   <CircleDollarSign size={18} />
-                  {!collapsed && <span>Sales</span>}
+                  {!collapsed && (
+                    <>
+                      <span className="flex-1">Sales</span>
+                      {isSalesMenuOpen ? (
+                        <ChevronDown size={16} />
+                      ) : (
+                        <ChevronRight size={16} />
+                      )}
+                    </>
+                  )}
                   {collapsed && <div className={tooltipClass}>Sales</div>}
-                </NavLink>
+                </div>
+                {!collapsed && isSalesMenuOpen && (
+                  <ul className="bg-[#0f172a] border-t border-slate-700 py-1">
+                    <li>
+                      <NavLink to="/sales" end className={({ isActive }) => `flex items-center gap-3 pl-12 pr-4 py-2 text-sm transition-colors ${isActive ? "text-blue-400 font-medium" : "text-slate-400 hover:text-white"}`}>
+                        <span>Sales Invoice</span>
+                        <Plus size={16} className="ml-auto hover:text-blue-400" />
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/sales/return" className={({ isActive }) => `flex items-center gap-3 pl-12 pr-4 py-2 text-sm transition-colors ${isActive ? "text-blue-400 font-medium" : "text-slate-400 hover:text-white"}`}>
+                        <span>Sales Return</span>
+                        <Plus size={16} className="ml-auto hover:text-blue-400" />
+                      </NavLink>
+                    </li>
+                  </ul>
+                )}
               </li>
 
               <li>
