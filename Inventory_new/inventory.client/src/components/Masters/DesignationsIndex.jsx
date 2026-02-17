@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, RotateCcw } from "lucide-react";
 
 export default function DesignationIndex() {
   const [designation, setDesignation] = useState("");
@@ -45,87 +45,73 @@ export default function DesignationIndex() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* ===== PAGE HEADER ===== */}
-      <div>
-        <h2 className="text-lg font-semibold text-gray-800">
-          Designations
-        </h2>
-        <p className="text-sm text-gray-500">
-          Create and manage employee designations
-        </p>
-      </div>
+    <div className="flex flex-col h-full bg-gradient-to-br from-gray-50 to-blue-50/30">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-slide-in { animation: slideIn 0.3s ease-out; }
+        .table-row-hover:hover { background: linear-gradient(90deg, #EFF6FF 0%, #DBEAFE 100%); transform: translateX(2px); transition: all 0.2s ease; }
+        .premium-shadow { box-shadow: 0 1px 3px rgba(0, 82, 204, 0.08), 0 1px 2px rgba(0, 82, 204, 0.06); }
+        .premium-shadow-lg { box-shadow: 0 4px 6px -1px rgba(0, 82, 204, 0.1), 0 2px 4px -1px rgba(0, 82, 204, 0.06); }
+      `}</style>
 
-      {/* ===== FORM CARD ===== */}
-      <div className="bg-white border border-gray-200 rounded-lg p-5">
-        <h3 className="text-sm font-medium text-gray-700 mb-4">
-          Designation
-        </h3>
+      {/* HEADER */}
+      <header className="bg-white border-b border-gray-200 px-6 py-4 premium-shadow animate-slide-in">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-gray-900 flex items-center gap-3">
+              Designations
+              <span className="text-xs font-normal text-gray-500 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">Master</span>
+            </h1>
+            <p className="text-xs text-gray-500 mt-0.5">Create and manage employee designations</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button onClick={handleClear} className="p-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 hover:border-blue-300 transition-all duration-200 group">
+              <RotateCcw size={16} className="text-gray-600 group-hover:text-blue-600" />
+            </button>
+          </div>
+        </div>
+      </header>
 
+      {/* FORM */}
+      <div className="bg-white border-b border-gray-200 px-6 py-4 premium-shadow animate-slide-in">
         <div className="flex items-end gap-4">
-          <div className="flex-1">
-            <label className="block text-sm text-gray-600 mb-1">
-              Designation
-            </label>
+          <div className="flex-1 max-w-md">
+            <label className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1 block">Designation</label>
             <input
               type="text"
               value={designation}
               onChange={(e) => setDesignation(e.target.value)}
               placeholder="Enter designation"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-
           <div className="flex gap-2">
-            <button
-              onClick={handleClear}
-              className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
-            >
-              Clear
-            </button>
-            <button
-              onClick={handleSave}
-              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Save
-            </button>
+            <button onClick={handleClear} className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Clear</button>
+            <button onClick={handleSave} className="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 shadow-sm">Save</button>
           </div>
         </div>
       </div>
 
-      {/* ===== TABLE ===== */}
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="px-4 py-2 text-left">Designation</th>
-              <th className="px-4 py-2 text-right">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
+      {/* TABLE */}
+      <div className="flex-1 overflow-auto p-6">
+        <div className="bg-white rounded-xl premium-shadow-lg overflow-hidden border border-gray-100">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gradient-to-r from-gray-50 to-blue-50/50 border-b border-gray-200">
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Designation</th>
+                <th className="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Action</th>
+              </tr>
+            </thead>
+            <tbody>
             {designations.map((d) => (
-              <tr
-                key={d.id}
-                className="border-b border-gray-200 last:border-none hover:bg-gray-50"
-              >
-                <td className="px-4 py-2">{d.name}</td>
-
-                {/* IMPORTANT: NO flex on td */}
-                <td className="px-4 py-2 text-right">
+              <tr key={d.id} className="border-b border-gray-100 table-row-hover">
+                <td className="px-6 py-3 text-sm text-gray-800 font-medium">{d.name}</td>
+                <td className="px-6 py-3 text-right">
                   <div className="flex justify-end gap-3">
-                    <button
-                      onClick={() => handleEdit(d)}
-                      className="text-blue-600 hover:text-blue-800"
-                    >
-                      <Pencil size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(d.id)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                    <button onClick={() => handleEdit(d)} className="text-blue-600 hover:text-blue-800"><Pencil size={16} /></button>
+                    <button onClick={() => handleDelete(d.id)} className="text-red-600 hover:text-red-800"><Trash2 size={16} /></button>
                   </div>
                 </td>
               </tr>
@@ -133,6 +119,7 @@ export default function DesignationIndex() {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 }

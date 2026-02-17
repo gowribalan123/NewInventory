@@ -42,6 +42,32 @@ import PurchaseIndex from './components/Operations/Opening/Bills/PurchaseIndex.j
 import SalesPointIndex from './components/Operations/Opening/SalespointIndex.jsx';
 import PurchaseReturn from './components/Purchases/forms/PurchaseReturn.jsx';
 import PurchaseOrderIndex from './components/Purchases/PurchaseOrderIndex.jsx';
+import BalanceSheet from './components/View/BalanceSheet.jsx';
+import PLAccount from './components/View/PLAccount.jsx';
+import TrialBalance from './components/View/TrialBalance.jsx';
+import DailyStatement from './components/View/Accout Book/DailyStatement.jsx';
+import CashFlow from './components/View/Accout Book/CashFlow.jsx';
+
+import DayBook from './components/View/Accout Book/DayBook.jsx';
+import GroupSummary from './components/View/Accout Book/GroupSummary.jsx';
+import JournalBook from './components/View/Accout Book/JournalBook.jsx';
+import YearlyLedgerBook from './components/View/Accout Book/YearlyLedgerBook.jsx';
+import DebitorsCreditors from './components/View/Accout Book/DebitorsCreditors.jsx';
+import PurchaseRegister from './components/View/Stock Report/PurchasRegister.jsx';
+import SalesStatement from './components/View/Stock Report/SalesStatement.jsx';
+import CustomerwiseSales from './components/View/Stock Report/CustomerwiseSales.jsx';
+import SalesmanwiseSales from './components/View/Stock Report/SalesmanwiseSales.jsx';
+import InventoryAnalysis from './components/View/Stock Report/InventoryAnalysis.jsx';
+import TurnoverSummary from './components/View/Stock Report/TurnoverSummary.jsx';
+import StockRegister from './components/View/Stock Report/StockRegister.jsx';
+import StockSummary from './components/View/Stock Report/StockSummary.jsx';
+import StockAnalysis from './components/View/Stock Report/StockAnalysis.jsx';
+import StockAgeing from './components/View/Stock Report/StockAgeing.jsx';
+import NegativeStockRegister from './components/View/Stock Report/NegativeStockRegister.jsx';
+import ClosingStockInventory from './components/View/Stock Report/ClosingStockInventory.jsx';
+
+
+
 
 
 
@@ -67,6 +93,9 @@ function App() {
               <Route path="purchases/order" element={<PurchaseOrderIndex />} />
 
               <Route path="sales" element={<Sales />} />
+
+
+
               <Route path="masters/category-groups" element={<CategoryGrpIndex />} />
               <Route path="masters/categories" element={<CategoryIndex />} />
               <Route path="masters/brand-names" element={<BrandIndex />} />
@@ -77,6 +106,9 @@ function App() {
               <Route path="masters/designations" element={<DesignationsIndex />} />
               <Route path="masters/ledger-groups" element={<LedgerIndex />} />
               <Route path="masters/areas" element={<Areasindex />} />
+
+
+
               
               <Route path="operations/vouchers" element={<VoucherIndex />} />
               <Route path="operations/sample-issue" element={<SampleIssueIndex />} />
@@ -94,8 +126,46 @@ function App() {
               <Route path="operations/opening/sales-point" element={<SalesPointIndex />} />
               <Route path="operations/opening/bills/sales" element={<SalesIndex />} />
               <Route path="operations/opening/bills/purchase" element={<PurchaseIndex />} />
-          
 
+
+
+
+              <Route path="view/balance-sheet" element={<BalanceSheet />} />
+              <Route path="view/pl-account" element={<PLAccount />} />
+              <Route path="view/trial-balance" element={<TrialBalance />} />
+              <Route path="view/account-book/daily-statement" element={<DailyStatement />} />
+              <Route path="view/account-book/cash-flow" element={<CashFlow />} />
+              <Route path="view/account-book/debitors-creditors" element={<DebitorsCreditors />} />
+              <Route path="view/account-book/day-book" element={<DayBook />} />
+              <Route path="view/account-book/group-summary" element={<GroupSummary />} />
+              <Route path="view/account-book/journal-book" element={<JournalBook />} />
+              <Route path="view/account-book/yearly-ledger-book" element={<YearlyLedgerBook />} />
+              <Route path="view/stock-report/purchase-register" element={<PurchaseRegister />} />
+              <Route path="view/stock-report/sales-statement" element={<SalesStatement />} />
+              <Route path="view/stock-report/yearly-ledger-book" element={<YearlyLedgerBook />} />
+              <Route path="view/stock-report/customerwise-sales" element={<CustomerwiseSales />} />
+              <Route path="view/stock-report/salesmanwise-sales" element={<SalesmanwiseSales />} />
+              <Route path="view/stock-report/inventory-analysis" element={<InventoryAnalysis />} />
+              <Route path="view/stock-report/turnover-summary" element={<TurnoverSummary />} />
+              <Route path="view/stock-report/stock-register" element={<StockRegister />} />
+              <Route path="view/stock-report/stock-register" element={<StockRegister />} />
+              <Route path="view/stock-report/stock-summary" element={<StockSummary />} />
+              <Route path="view/stock-report/stock-analysis" element={<StockAnalysis />} />
+              <Route path="view/stock-report/stock-ageing" element={<StockAgeing />} />
+              <Route path="view/stock-report/negative-stock-register" element={<NegativeStockRegister />} />
+              <Route path="view/stock-report/closing-stock-inventory" element={<ClosingStockInventory />} />
+              
+              
+            
+
+
+
+
+
+
+              
+              
+ 
               
 
               
@@ -106,6 +176,9 @@ function App() {
               <Route path="settings" element={<Settings />} />
               */}
             </Route>
+
+                    
+
           </Routes>
         </div>
       </Router>
