@@ -1,49 +1,50 @@
 import { useState, useEffect } from "react";
-import LocalPurchaseOrder from "./forms/LocalPurchaseOrder";
-import PurchaseOrderList from "./lists/PurchaseOrderList";
+import SalesReturn from "./forms/SalesReturn";
+import SalesReturnList from "./lists/SalesReturnList";
 
-export default function PurchaseOrderIndex() {
+export default function SalesReturnIndex() {
   const [showForm, setShowForm] = useState(false);
-  const [editingOrder, setEditingOrder] = useState(null);
-  const [orders, setOrders] = useState([]);
+  const [editingReturn, setEditingReturn] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [returns, setReturns] = useState([]);
 
-  const API_URL = "http://localhost:5000/api/purchase-orders";
+  const API_URL = "http://localhost:5000/api/sales-returns";
 
   useEffect(() => {
-    fetchOrders();
+    fetchReturns();
   }, []);
 
-  const fetchOrders = async () => {
+  const fetchReturns = async () => {
     try {
       const response = await fetch(API_URL);
       if (response.ok) {
         const data = await response.json();
-        setOrders(data.map((item) => ({ ...item, id: item._id })));
+        setReturns(data.map((item) => ({ ...item, id: item._id })));
       }
     } catch (error) {
-      console.error("Error fetching orders:", error);
+      console.error("Error fetching returns:", error);
     }
   };
 
   const handleAddNew = () => {
-    setEditingOrder(null);
+    setEditingReturn(null);
     setShowForm(true);
   };
 
-  const handleEdit = (order) => {
-    setEditingOrder(order);
+  const handleEdit = (item) => {
+    setEditingReturn(item);
     setShowForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this order?")) {
+    if (window.confirm("Are you sure you want to delete this return?")) {
       try {
         const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
         if (response.ok) {
-          fetchOrders();
+          fetchReturns();
         }
       } catch (error) {
-        console.error("Error deleting order:", error);
+        console.error("Error deleting return:", error);
       }
     }
   };
@@ -51,8 +52,8 @@ export default function PurchaseOrderIndex() {
   const handleSave = async (formData) => {
     try {
       let response;
-      if (editingOrder) {
-        response = await fetch(`${API_URL}/${editingOrder.id}`, {
+      if (editingReturn) {
+        response = await fetch(`${API_URL}/${editingReturn.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
@@ -66,19 +67,24 @@ export default function PurchaseOrderIndex() {
       }
 
       if (response.ok) {
-        fetchOrders();
+        fetchReturns();
         setShowForm(false);
-        setEditingOrder(null);
+        setEditingReturn(null);
       }
     } catch (error) {
-      console.error("Error saving order:", error);
+      console.error("Error saving return:", error);
     }
   };
 
   const handleCancel = () => {
     setShowForm(false);
-    setEditingOrder(null);
+    setEditingReturn(null);
   };
+
+  const filteredReturns = returns.filter(r =>
+    r.returnNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    r.party.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -87,9 +93,9 @@ export default function PurchaseOrderIndex() {
         {!showForm && (
           <>
             <header className="mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">Purchase Orders</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Sales Return</h1>
               <p className="text-sm text-gray-700">
-                Manage local purchase orders
+                Manage sales return entries
               </p>
             </header>
 
@@ -100,29 +106,25 @@ export default function PurchaseOrderIndex() {
                 </svg>
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                  placeholder="Search orders..."
+                  placeholder="Search returns..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               <button
                 onClick={handleAddNew}
                 className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 whitespace-nowrap flex items-center gap-2"
               >
-                <span className="text-lg">+</span> New Order
+                <span className="text-lg">+</span> New Return
               </button>
             </section>
 
-            <PurchaseOrderList orders={orders} onDelete={handleDelete} onEdit={handleEdit} />
+            <SalesReturnList returns={filteredReturns} onDelete={handleDelete} onEdit={handleEdit} />
           </>
         )}
 
         {showForm && (
-          <section>
-            <LocalPurchaseOrder
-              onSave={handleSave}
-              onCancel={handleCancel}
-              initialData={editingOrder}
-            />
-          </section>
+          <SalesReturn onSave={handleSave} onCancel={handleCancel} initialData={editingReturn} />
         )}
       </div>
     </div>

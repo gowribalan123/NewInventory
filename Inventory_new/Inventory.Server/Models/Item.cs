@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Inventory.Server.Models
 {
-    [Table("Item")]
+    [Table("Item", Schema = "Reference")]
     public class Item
     {
         [Key]

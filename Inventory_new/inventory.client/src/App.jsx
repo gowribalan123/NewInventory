@@ -15,8 +15,8 @@ import Sales from './components/Sales/Index.jsx';
 
 // Import Context
 import { AppProvider } from './contexts/AppContext.jsx';
-import CategoryGrpIndex from './components/Masters/CategoriesGroup/CategoryGrpIndex.jsx';
-import CategoryIndex from './components/Masters/Categories/CategoryIndex.jsx';
+import CategoryGrpIndex from './components/Masters/CategoryGroupIndex.jsx';
+import CategoryIndex from './components/Masters/CategoryIndex.jsx';
 import BrandIndex from './components/Masters/BrandIndex.jsx';
 import UnitsIndex from './components/Masters/UnitsIndex.jsx';
 import ItemIndex from './components/Masters/ItemIndex.jsx';

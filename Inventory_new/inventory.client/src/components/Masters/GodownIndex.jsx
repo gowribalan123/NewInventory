@@ -1,149 +1,196 @@
-import React, { useState } from "react";
-import { Pencil, Trash2, RotateCcw } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Warehouse, Save, RotateCcw, Pencil, Trash2 } from 'lucide-react';
+
+const API_URL = "http://localhost:5166/api/Godowns";
 
 function GodownIndex() {
   const [form, setForm] = useState({
-    name: "",
+    godownName: "",
     location: "",
+    isGodown: true,
+    vanRegNo: "",
+    isClosed: false
   });
 
-  const [editingGodown, setEditingGodown] = useState(null);
+  const [godowns, setGodowns] = useState([]);
+  const [editId, setEditId] = useState(null);
 
-  const [godowns, setGodowns] = useState([
-    { id: 1, name: "GODOWN", location: "Main Store" },
-  ]);
+  useEffect(() => {
+    fetchGodowns();
+  }, []);
+
+  const fetchGodowns = async () => {
+    try {
+      const response = await fetch(API_URL);
+      if (response.ok) {
+        const data = await response.json();
+        setGodowns(data);
+      }
+    } catch (error) {
+      console.error("Error fetching godowns:", error);
+    }
+  };
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   };
 
-  const handleSave = () => {
-    if (!form.name) return;
-    if (editingGodown) {
-      setGodowns(
-        godowns.map((g) => (g.id === editingGodown.id ? { ...g, ...form } : g))
-      );
-    } else {
-      setGodowns([
-        ...godowns,
-        {
-          id: Date.now(),
-          name: form.name,
-          location: form.location,
-        },
-      ]);
+  const handleSave = async () => {
+    if (!form.godownName.trim()) return;
+
+    const payload = {
+      ...form,
+      companyID: 1, // Hardcoded
+      userID: 1     // Hardcoded
+    };
+
+    try {
+      let response;
+      if (editId) {
+        response = await fetch(`${API_URL}/${editId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...payload, godownID: editId }),
+        });
+      } else {
+        response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      if (response.ok) {
+        handleClear();
+        fetchGodowns();
+      } else {
+        alert("Failed to save godown.");
+      }
+    } catch (error) {
+      console.error("Error saving godown:", error);
     }
-    handleClear();
   };
 
-  const handleDelete = (id) => {
-    setGodowns(godowns.filter((g) => g.id !== id));
+  const handleEdit = (item) => {
+    setForm({
+      godownName: item.godownName || "",
+      location: item.location || "",
+      isGodown: item.isGodown,
+      vanRegNo: item.vanRegNo || "",
+      isClosed: item.isClosed
+    });
+    setEditId(item.godownID);
   };
 
-  const handleEdit = (godown) => {
-    setEditingGodown(godown);
-    setForm({ name: godown.name, location: godown.location });
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure?")) return;
+    try {
+      const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+      if (response.ok) fetchGodowns();
+    } catch (error) {
+      console.error("Error deleting godown:", error);
+    }
   };
 
   const handleClear = () => {
-    setForm({ name: "", location: "" });
-    setEditingGodown(null);
+    setForm({
+      godownName: "",
+      location: "",
+      isGodown: true,
+      vanRegNo: "",
+      isClosed: false
+    });
+    setEditId(null);
   };
 
- 
-
   return (
-    <div className="flex flex-col h-full bg-gradient-to-br from-gray-50 to-blue-50/30">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        * { font-family: 'Inter', sans-serif; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-slide-in { animation: slideIn 0.3s ease-out; }
-        .table-row-hover:hover { background: linear-gradient(90deg, #EFF6FF 0%, #DBEAFE 100%); transform: translateX(2px); transition: all 0.2s ease; }
-        .premium-shadow { box-shadow: 0 1px 3px rgba(0, 82, 204, 0.08), 0 1px 2px rgba(0, 82, 204, 0.06); }
-        .premium-shadow-lg { box-shadow: 0 4px 6px -1px rgba(0, 82, 204, 0.1), 0 2px 4px -1px rgba(0, 82, 204, 0.06); }
-      `}</style>
-
-      {/* HEADER */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4 premium-shadow animate-slide-in">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900 flex items-center gap-3">
-              Godown Names
-              <span className="text-xs font-normal text-gray-500 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">Master</span>
+    <div className="p-1 md:p-2 bg-[#f0f5ff] min-h-screen font-sans text-sm w-full">
+      <div className="max-w-[99%] mx-auto bg-white shadow-md rounded border border-blue-300 overflow-hidden">
+        {/* Header Bar */}
+        <div className="bg-[#1e293b] px-3 py-1.5 flex justify-between items-center text-white">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+              <Warehouse size={14} className="text-yellow-400" /> Godown / Location Master
             </h1>
-            <p className="text-xs text-gray-500 mt-0.5">Create and manage storage locations</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <button onClick={handleClear} className="p-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 hover:border-blue-300 transition-all duration-200 group">
-              <RotateCcw size={16} className="text-gray-600 group-hover:text-blue-600" />
-            </button>
           </div>
         </div>
       </header>
 
-      {/* FORM */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 premium-shadow animate-slide-in">
-        <div className="flex items-end gap-4">
-          <div className="flex-1 grid grid-cols-2 gap-4">
-            <div>
-              <label className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1 block">Godown Name</label>
-              <input name="name" value={form.name} onChange={handleChange} placeholder="Enter godown name" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-            </div>
-            <div>
-              <label className="text-xs font-medium text-gray-600 uppercase tracking-wide mb-1 block">Location</label>
-              <input name="location" value={form.location} onChange={handleChange} placeholder="Enter location" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+        <div className="p-2 bg-[#e2ebf8]">
+          {/* Form Section */}
+          <div className="bg-white p-3 border border-blue-200 rounded shadow-sm mb-2">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+              <div className="md:col-span-4 flex items-center gap-2">
+                <span className="w-24 text-[11px] font-semibold text-slate-600">Name</span>
+                <input
+                  name="godownName"
+                  value={form.godownName}
+                  onChange={handleChange}
+                  placeholder="Godown Name"
+                  className="flex-1 border border-slate-300 p-1 text-xs outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="md:col-span-4 flex items-center gap-2">
+                <span className="w-24 text-[11px] font-semibold text-slate-600">Location</span>
+                <input
+                  name="location"
+                  value={form.location}
+                  onChange={handleChange}
+                  placeholder="Location"
+                  className="flex-1 border border-slate-300 p-1 text-xs outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="md:col-span-4 flex items-center gap-4">
+                <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                  <input type="checkbox" name="isGodown" checked={form.isGodown} onChange={handleChange} className="rounded text-blue-600" />
+                  Is Godown
+                </label>
+                <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                  <input type="checkbox" name="isClosed" checked={form.isClosed} onChange={handleChange} className="rounded text-red-600" />
+                  Is Closed
+                </label>
+              </div>
+              
+              <div className="md:col-span-12 flex justify-end gap-2 mt-2">
+                <button onClick={handleClear} className="flex items-center gap-1.5 px-3 py-1 border border-slate-300 rounded font-bold text-slate-700 text-[11px] hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all">
+                  <RotateCcw size={14} strokeWidth={2.5} className="text-red-500" /> CLEAR
+                </button>
+                <button onClick={handleSave} className="flex items-center gap-2 px-6 py-1 rounded bg-emerald-600 font-black text-white text-[11px] shadow-md hover:bg-emerald-700 active:scale-95 transition-all uppercase tracking-wide">
+                  <Save size={16} strokeWidth={2.5} /> {editId ? "UPDATE" : "SAVE"}
+                </button>
+              </div>
             </div>
           </div>
-          <div className="flex gap-2">
-            <button onClick={handleClear} className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{editingGodown ? "Cancel" : "Clear"}</button>
-            <button onClick={handleSave} className="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 shadow-sm">{editingGodown ? "Update" : "Save"}</button>
+
+          {/* Table Section */}
+          <div className="border border-slate-300 rounded bg-white overflow-hidden shadow-sm">
+            <table className="w-full border-collapse">
+              <thead className="bg-[#f8fafc] border-b border-slate-300">
+                <tr className="text-[#1e3a8a] font-bold text-[10px] uppercase text-left">
+                  <th className="p-2 border-r border-slate-200">Name</th>
+                  <th className="p-2 border-r border-slate-200">Location</th>
+                  <th className="p-2 border-r border-slate-200 w-24 text-center">Type</th>
+                  <th className="p-2 w-24 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {godowns.map((item) => (
+                  <tr key={item.godownID} className="hover:bg-blue-50/50 transition-colors">
+                    <td className="p-2 border-r border-slate-100 text-xs font-medium text-slate-700">{item.godownName}</td>
+                    <td className="p-2 border-r border-slate-100 text-xs text-slate-600">{item.location || "-"}</td>
+                    <td className="p-2 border-r border-slate-100 text-xs text-center text-slate-600">{item.isGodown ? "Godown" : "Other"}</td>
+                    <td className="p-2 text-center flex justify-center gap-2">
+                      <button onClick={() => handleEdit(item)} className="text-blue-600 hover:text-blue-800"><Pencil size={14} /></button>
+                      <button onClick={() => handleDelete(item.godownID)} className="text-red-600 hover:text-red-800"><Trash2 size={14} /></button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-
-      {/* TABLE */}
-      <div className="flex-1 overflow-auto p-6">
-        <div className="bg-white rounded-xl premium-shadow-lg overflow-hidden border border-gray-100">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gradient-to-r from-gray-50 to-blue-50/50 border-b border-gray-200">
-                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Godown Name</th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Location</th>
-                <th className="px-6 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-                     {godowns.map((g) => (
-                        <tr key={g.id} className="border-b border-gray-100 table-row-hover">
-                            <td className="px-6 py-3 text-sm text-gray-800 font-medium">{g.name}</td>
-                            <td className="px-6 py-3 text-sm text-gray-600">{g.location}</td>
-                            <td className="px-6 py-3 text-right">
-                            <div className="flex justify-end gap-3">
-                                <button 
-                                  onClick={() => handleEdit(g)}
-                                  className="text-blue-600 hover:text-blue-800 focus:outline-none"
-                                >
-                                <Pencil size={16} />
-                                </button>
-                                <button
-                                onClick={() => handleDelete(g.id)}
-                                className="text-red-600 hover:text-red-800 focus:outline-none"
-                                >
-                                <Trash2 size={16} />
-                                </button>
-                            </div>
-                            </td>
-                        </tr>
-                        ))}
-
-            {godowns.length === 0 && (
-              <tr><td colSpan="3" className="px-6 py-8 text-center text-gray-400 text-sm">No godowns added</td></tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
     </div>
   );
 }
