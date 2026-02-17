@@ -1,16 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LocalPurchaseOrder from "./forms/LocalPurchaseOrder";
 import PurchaseOrderList from "./lists/PurchaseOrderList";
 
 export default function PurchaseOrderIndex() {
   const [showForm, setShowForm] = useState(false);
   const [editingOrder, setEditingOrder] = useState(null);
+  const [orders, setOrders] = useState([]);
 
-  // Mock data
-  const [orders, setOrders] = useState([
-    { id: 1, orderNo: "LPO-1001", orderDate: "2024-02-20", party: "Global Suppliers Ltd", status: "Active", grandTotal: "4500.00" },
-    { id: 2, orderNo: "LPO-1002", orderDate: "2024-02-22", party: "Tech Supplies Inc.", status: "Closed", grandTotal: "1250.00" },
-  ]);
+  const API_URL = "http://localhost:5000/api/purchase-orders";
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = async () => {
+    try {
+      const response = await fetch(API_URL);
+      if (response.ok) {
+        const data = await response.json();
+        setOrders(data.map((item) => ({ ...item, id: item._id })));
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
 
   const handleAddNew = () => {
     setEditingOrder(null);
@@ -22,24 +35,44 @@ export default function PurchaseOrderIndex() {
     setShowForm(true);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this order?")) {
-      setOrders(orders.filter(o => o.id !== id));
+      try {
+        const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+        if (response.ok) {
+          fetchOrders();
+        }
+      } catch (error) {
+        console.error("Error deleting order:", error);
+      }
     }
   };
 
-  const handleSave = (formData) => {
-    if (editingOrder) {
-      setOrders(orders.map(o => o.id === editingOrder.id ? { ...formData, id: editingOrder.id } : o));
-    } else {
-      const newOrder = {
-        id: Date.now(),
-        ...formData,
-      };
-      setOrders([newOrder, ...orders]);
+  const handleSave = async (formData) => {
+    try {
+      let response;
+      if (editingOrder) {
+        response = await fetch(`${API_URL}/${editingOrder.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+      } else {
+        response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+      }
+
+      if (response.ok) {
+        fetchOrders();
+        setShowForm(false);
+        setEditingOrder(null);
+      }
+    } catch (error) {
+      console.error("Error saving order:", error);
     }
-    setShowForm(false);
-    setEditingOrder(null);
   };
 
   const handleCancel = () => {

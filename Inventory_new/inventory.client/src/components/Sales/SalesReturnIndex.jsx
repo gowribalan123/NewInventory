@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SalesReturn from "./forms/SalesReturn";
 import SalesReturnList from "./lists/SalesReturnList";
 
@@ -6,12 +6,25 @@ export default function SalesReturnIndex() {
   const [showForm, setShowForm] = useState(false);
   const [editingReturn, setEditingReturn] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [returns, setReturns] = useState([]);
 
-  // Mock data
-  const [returns, setReturns] = useState([
-    { id: 1, returnNo: "SR-1001", returnDate: "2024-02-20", party: "Cash Customer", billType: "Cash", grandTotal: "450.00" },
-    { id: 2, returnNo: "SR-1002", returnDate: "2024-02-22", party: "John Doe", billType: "Credit", grandTotal: "1250.00" },
-  ]);
+  const API_URL = "http://localhost:5000/api/sales-returns";
+
+  useEffect(() => {
+    fetchReturns();
+  }, []);
+
+  const fetchReturns = async () => {
+    try {
+      const response = await fetch(API_URL);
+      if (response.ok) {
+        const data = await response.json();
+        setReturns(data.map((item) => ({ ...item, id: item._id })));
+      }
+    } catch (error) {
+      console.error("Error fetching returns:", error);
+    }
+  };
 
   const handleAddNew = () => {
     setEditingReturn(null);
@@ -23,24 +36,44 @@ export default function SalesReturnIndex() {
     setShowForm(true);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this return?")) {
-      setReturns(returns.filter(r => r.id !== id));
+      try {
+        const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+        if (response.ok) {
+          fetchReturns();
+        }
+      } catch (error) {
+        console.error("Error deleting return:", error);
+      }
     }
   };
 
-  const handleSave = (formData) => {
-    if (editingReturn) {
-      setReturns(returns.map(r => r.id === editingReturn.id ? { ...formData, id: editingReturn.id } : r));
-    } else {
-      const newReturn = {
-        id: Date.now(),
-        ...formData,
-      };
-      setReturns([newReturn, ...returns]);
+  const handleSave = async (formData) => {
+    try {
+      let response;
+      if (editingReturn) {
+        response = await fetch(`${API_URL}/${editingReturn.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+      } else {
+        response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+      }
+
+      if (response.ok) {
+        fetchReturns();
+        setShowForm(false);
+        setEditingReturn(null);
+      }
+    } catch (error) {
+      console.error("Error saving return:", error);
     }
-    setShowForm(false);
-    setEditingReturn(null);
   };
 
   const handleCancel = () => {
