@@ -1,46 +1,92 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Pencil, Trash2, Briefcase, Save, RotateCcw } from "lucide-react";
 
+// IMPORTANT: Check your 'dotnet run' output for the correct port (e.g., 7123, 5001, etc.)
+const API_URL = "http://localhost:5166/api/Designations";
+
 export default function DesignationIndex() {
-  const [designation, setDesignation] = useState("");
+  const [designationName, setDesignationName] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [designations, setDesignations] = useState([]);
 
-  const [designations, setDesignations] = useState([
-    { id: 1, name: "SALESMAN" },
-    { id: 2, name: "TECHNICIAN" },
-    { id: 3, name: "SALES ENGINEER" },
-  ]);
-
-  const handleSave = () => {
-    if (!designation.trim()) return;
-
-    if (editingId) {
-      setDesignations((prev) =>
-        prev.map((d) =>
-          d.id === editingId ? { ...d, name: designation } : d
-        )
-      );
-    } else {
-      setDesignations((prev) => [
-        ...prev,
-        { id: Date.now(), name: designation },
-      ]);
+  const fetchDesignations = useCallback(async () => {
+    try {
+      const response = await fetch(API_URL);
+      if (response.ok) {
+        const data = await response.json();
+        setDesignations(data);
+      } else {
+        console.error("Failed to fetch designations");
+      }
+    } catch (error) {
+      console.error("Error fetching designations:", error);
     }
+  }, []);
 
-    handleClear();
+  useEffect(() => {
+    fetchDesignations();
+  }, [fetchDesignations]);
+
+  const handleSave = async () => {
+    if (!designationName.trim()) return;
+
+    const designationData = {
+      designationName: designationName,
+      // financialYearId: 1 // Can be set if required by the form
+    };
+
+    try {
+      let response;
+      if (editingId) {
+        response = await fetch(`${API_URL}/${editingId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(designationData),
+        });
+      } else {
+        response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(designationData),
+        });
+      }
+
+      if (response.ok) {
+        handleClear();
+        fetchDesignations();
+      } else {
+        alert("Failed to save designation. Server returned an error.");
+      }
+    } catch (error) {
+      console.error("Error saving designation:", error);
+      alert(
+        "Failed to save designation. Please check if the backend is running and the port is correct."
+      );
+    }
   };
 
   const handleEdit = (d) => {
-    setDesignation(d.name);
-    setEditingId(d.id);
+    setDesignationName(d.designationName);
+    setEditingId(d.designationId);
   };
 
-  const handleDelete = (id) => {
-    setDesignations((prev) => prev.filter((d) => d.id !== id));
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this designation?"))
+      return;
+    try {
+      const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+      if (response.ok) {
+        fetchDesignations();
+      } else {
+        alert("Failed to delete designation.");
+      }
+    } catch (error) {
+      console.error("Error deleting designation:", error);
+    }
   };
 
   const handleClear = () => {
-    setDesignation("");
+    setDesignationName("");
     setEditingId(null);
   };
 
@@ -64,8 +110,8 @@ export default function DesignationIndex() {
                 <span className="w-24 text-[11px] font-semibold text-slate-600">Designation</span>
                 <input
                   type="text"
-                  value={designation}
-                  onChange={(e) => setDesignation(e.target.value)}
+                  value={designationName}
+                  onChange={(e) => setDesignationName(e.target.value)}
                   placeholder="Enter designation"
                   className="flex-1 border border-slate-300 p-1 text-xs outline-none focus:border-blue-500"
                 />
@@ -91,15 +137,24 @@ export default function DesignationIndex() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {designations.map((d) => (
-                  <tr key={d.id} className="hover:bg-blue-50/50 transition-colors">
-                    <td className="p-2 border-r border-slate-100 text-xs font-medium text-slate-700">{d.name}</td>
-                    <td className="p-2 text-center flex justify-center gap-2">
-                      <button onClick={() => handleEdit(d)} className="text-blue-600 hover:text-blue-800"><Pencil size={14} /></button>
-                      <button onClick={() => handleDelete(d.id)} className="text-red-600 hover:text-red-800"><Trash2 size={14} /></button>
-                    </td>
-                  </tr>
-                ))}
+                {designations.length > 0 ? (
+                  designations.map((d) => (
+                    <tr
+                      key={d.designationId}
+                      className="hover:bg-blue-50/50 transition-colors"
+                    >
+                      <td className="p-2 border-r border-slate-100 text-xs font-medium text-slate-700">
+                        {d.designationName}
+                      </td>
+                      <td className="p-2 text-center flex justify-center gap-2">
+                        <button onClick={() => handleEdit(d)} className="text-blue-600 hover:text-blue-800"><Pencil size={14} /></button>
+                        <button onClick={() => handleDelete(d.designationId)} className="text-red-600 hover:text-red-800"><Trash2 size={14} /></button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr><td colSpan="2" className="p-4 text-center text-xs text-slate-400">No designations found</td></tr>
+                )}
               </tbody>
             </table>
           </div>

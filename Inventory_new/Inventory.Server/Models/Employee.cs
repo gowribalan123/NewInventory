@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Inventory.Server.Models.Core;
 
 namespace Inventory.Server.Models
 {
-    [Table("EMPLOYEEMASTER", Schema = "dbo")]
+    [Table("EMPLOYEEMASTER", Schema = "Reference")]
     public class Employee
     {
         [Key]
@@ -44,9 +45,6 @@ namespace Inventory.Server.Models
 
         public bool? IsPermanent { get; set; }
 
-        [StringLength(100)]
-        public string? Designation { get; set; }
-
         public double? Salary { get; set; }
 
         public DateTime? JoiningDate { get; set; }
@@ -67,6 +65,9 @@ namespace Inventory.Server.Models
         public bool? IsSalesman { get; set; }
 
         public int? DesignationId { get; set; }
+
+        [ForeignKey(nameof(DesignationId))]
+        public virtual Designation? Designation { get; set; }
 
         public int? UnderNameId { get; set; }
     }

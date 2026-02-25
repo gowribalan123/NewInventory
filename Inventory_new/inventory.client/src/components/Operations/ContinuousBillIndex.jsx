@@ -961,3 +961,548 @@ const ContinuousBillIndex = () => {
 };
 
 export default ContinuousBillIndex;
+
+
+
+
+
+
+
+
+
+// import React, { useState, useRef, useEffect } from "react";
+// import {
+//   Printer,
+//   RotateCcw,
+//   Save,
+//   FileText,
+//   Search,
+//   Plus,
+//   Trash2,
+//   Calendar,
+//   ChevronDown,
+// } from "lucide-react";
+
+// export default function ContinuousBill() {
+//   const [formData, setFormData] = useState({
+//     billNo: "CB-9901",
+//     date: "2026-02-21",
+//     partyName: "",
+//     billType: "Cash",
+//     formType: "Retail",
+//     printType: "Windows",
+//     narration: "",
+//   });
+
+//   const [items, setItems] = useState([
+//     {
+//       id: 1,
+//       itemCode: "",
+//       itemName: "",
+//       unit: "PCS",
+//       qty: "",
+//       rate: "",
+//       total: 0,
+//     },
+//   ]);
+
+//   const [autoPrint, setAutoPrint] = useState(false);
+//   const itemCodeRefs = useRef([]);
+
+//   // Mock data for autocomplete
+//   const MOCK_ITEMS = [
+//     { code: "IP15P", name: "iPhone 15 Pro", unit: "PCS", rate: "999" },
+//     { code: "MBP256", name: "Macbook Pro", unit: "PCS", rate: "1999" },
+//     { code: "NP128", name: "Nokia Pro", unit: "PCS", rate: "499" },
+//   ];
+
+//   const MOCK_PARTIES = [
+//     "Apex Electronics Ltd",
+//     "Global Solutions",
+//     "Tech World",
+//     "Smart Traders",
+//   ];
+
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleItemChange = (id, field, value) => {
+//     setItems(
+//       items.map((item) => {
+//         if (item.id === id) {
+//           const updated = { ...item, [field]: value };
+
+//           // Auto-fill from mock data
+//           if (field === "itemCode" && value) {
+//             const found = MOCK_ITEMS.find((i) =>
+//               i.code.toLowerCase().includes(value.toLowerCase())
+//             );
+//             if (found) {
+//               updated.itemName = found.name;
+//               updated.unit = found.unit;
+//               updated.rate = found.rate;
+//             }
+//           }
+
+//           // Calculate total
+//           if (field === "qty" || field === "rate") {
+//             const qty = parseFloat(updated.qty) || 0;
+//             const rate = parseFloat(updated.rate) || 0;
+//             updated.total = qty * rate;
+//           }
+
+//           return updated;
+//         }
+//         return item;
+//       })
+//     );
+//   };
+
+//   const addItem = () => {
+//     const newItem = {
+//       id: items.length + 1,
+//       itemCode: "",
+//       itemName: "",
+//       unit: "PCS",
+//       qty: "",
+//       rate: "",
+//       total: 0,
+//     };
+//     setItems([...items, newItem]);
+//     setTimeout(() => {
+//       itemCodeRefs.current[items.length]?.focus();
+//     }, 100);
+//   };
+
+//   const removeItem = (id) => {
+//     if (items.length > 1) {
+//       setItems(items.filter((item) => item.id !== id));
+//     }
+//   };
+
+//   const handleKeyPress = (e, index) => {
+//     if (e.key === "F2") {
+//       e.preventDefault();
+//       addItem();
+//     } else if (e.key === "Enter") {
+//       e.preventDefault();
+//       const nextIndex = index + 1;
+//       if (nextIndex < items.length) {
+//         itemCodeRefs.current[nextIndex]?.focus();
+//       } else {
+//         addItem();
+//       }
+//     }
+//   };
+
+//   const calculateGrandTotal = () => {
+//     return items.reduce((sum, item) => sum + (item.total || 0), 0);
+//   };
+
+//   const handleSaveAndPrint = () => {
+//     console.log("Saving bill:", { formData, items });
+//     alert("Bill saved successfully!");
+//     if (autoPrint) {
+//       window.print();
+//     }
+//   };
+
+//   const handleClear = () => {
+//     setFormData({
+//       ...formData,
+//       partyName: "",
+//       narration: "",
+//     });
+//     setItems([
+//       {
+//         id: 1,
+//         itemCode: "",
+//         itemName: "",
+//         unit: "PCS",
+//         qty: "",
+//         rate: "",
+//         total: 0,
+//       },
+//     ]);
+//   };
+
+//   const handleLastBill = () => {
+//     alert("Loading last bill...");
+//   };
+
+//   const input =
+//     "px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 placeholder-gray-400 transition-all";
+//   const label = "text-xs font-semibold text-gray-700 uppercase tracking-wide";
+
+//   return (
+//     <div className="p-6 bg-gradient-to-br from-gray-50 to-blue-50/30 min-h-screen">
+//       <div className="max-w-7xl mx-auto">
+//         <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+//           {/* Header */}
+//           <div className="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 flex items-center justify-between">
+//             <div className="flex items-center gap-3">
+//               <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
+//                 <FileText className="text-white" size={20} />
+//               </div>
+//               <div>
+//                 <h2 className="text-xl font-bold text-white flex items-center gap-3">
+//                   Continuous Bill Entry
+//                   <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium">
+//                     Quick Entry
+//                   </span>
+//                 </h2>
+//                 <p className="text-xs text-blue-100 mt-0.5">
+//                   Fast billing with auto-increment
+//                 </p>
+//               </div>
+//             </div>
+
+//             <div className="flex items-center gap-4">
+//               <label className="flex items-center gap-2 cursor-pointer group">
+//                 <input
+//                   type="checkbox"
+//                   checked={autoPrint}
+//                   onChange={() => setAutoPrint(!autoPrint)}
+//                   className="w-4 h-4 text-white border-white/30 rounded focus:ring-white/50 bg-white/20 cursor-pointer"
+//                 />
+//                 <span className="text-sm font-medium text-white group-hover:text-blue-100 transition-colors">
+//                   AUTO-PRINT
+//                 </span>
+//               </label>
+
+//               <button className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-all duration-200 flex items-center gap-2 border border-white/30">
+//                 <FileText size={16} />
+//                 <span className="text-sm font-medium">F2: NEW ENTRY</span>
+//               </button>
+//             </div>
+//           </div>
+
+//           {/* Form Section */}
+//           <div className="p-6 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200">
+//             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+//               {/* Bill No */}
+//               <div>
+//                 <label className={label}>Bill No</label>
+//                 <div className="relative mt-1.5">
+//                   <input
+//                     className={input}
+//                     name="billNo"
+//                     value={formData.billNo}
+//                     onChange={handleChange}
+//                     readOnly
+//                   />
+//                   <Search
+//                     size={16}
+//                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+//                   />
+//                 </div>
+//               </div>
+
+//               {/* Date */}
+//               <div>
+//                 <label className={label}>Date</label>
+//                 <div className="relative mt-1.5">
+//                   <input
+//                     type="date"
+//                     className={input}
+//                     name="date"
+//                     value={formData.date}
+//                     onChange={handleChange}
+//                   />
+//                   <Calendar
+//                     size={16}
+//                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+//                   />
+//                 </div>
+//               </div>
+
+//               {/* Party Name */}
+//               <div className="lg:col-span-2">
+//                 <label className={label}>Party Name</label>
+//                 <div className="relative mt-1.5">
+//                   <input
+//                     className={input}
+//                     name="partyName"
+//                     value={formData.partyName}
+//                     onChange={handleChange}
+//                     placeholder="Search party..."
+//                     list="parties"
+//                   />
+//                   <datalist id="parties">
+//                     {MOCK_PARTIES.map((party) => (
+//                       <option key={party} value={party} />
+//                     ))}
+//                   </datalist>
+//                   <Search
+//                     size={16}
+//                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+//                   />
+//                 </div>
+//               </div>
+
+//               {/* Bill Type */}
+//               <div>
+//                 <label className={label}>Bill Type</label>
+//                 <select
+//                   className={`${input} mt-1.5`}
+//                   name="billType"
+//                   value={formData.billType}
+//                   onChange={handleChange}
+//                 >
+//                   <option>Cash</option>
+//                   <option>Credit</option>
+//                 </select>
+//               </div>
+
+//               {/* Form Type */}
+//               <div>
+//                 <label className={label}>Form Type</label>
+//                 <select
+//                   className={`${input} mt-1.5`}
+//                   name="formType"
+//                   value={formData.formType}
+//                   onChange={handleChange}
+//                 >
+//                   <option>Retail</option>
+//                   <option>Wholesale</option>
+//                   <option>Tax Invoice</option>
+//                 </select>
+//               </div>
+
+//               {/* Stock From */}
+//               <div>
+//                 <label className={label}>Stock From</label>
+//                 <div className="relative mt-1.5">
+//                   <input
+//                     className={input}
+//                     placeholder="Select source..."
+//                   />
+//                   <button className="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 transition-colors">
+//                     L
+//                   </button>
+//                 </div>
+//               </div>
+
+//               {/* Narration */}
+//               <div className="lg:col-span-2">
+//                 <label className={label}>Narration</label>
+//                 <input
+//                   className={`${input} mt-1.5`}
+//                   name="narration"
+//                   value={formData.narration}
+//                   onChange={handleChange}
+//                   placeholder="Remarks..."
+//                 />
+//               </div>
+
+//               {/* Print Type */}
+//               <div>
+//                 <label className={label}>Print Type</label>
+//                 <select
+//                   className={`${input} mt-1.5`}
+//                   name="printType"
+//                   value={formData.printType}
+//                   onChange={handleChange}
+//                 >
+//                   <option>Windows</option>
+//                   <option>Thermal</option>
+//                   <option>A4</option>
+//                 </select>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Items Table */}
+//           <div className="overflow-x-auto">
+//             <table className="w-full">
+//               <thead>
+//                 <tr className="bg-gradient-to-r from-gray-50 to-blue-50/30 border-b-2 border-blue-200">
+//                   <th className="px-4 py-3 text-center text-xs font-bold text-gray-700 uppercase tracking-wider w-12">
+//                     #
+//                   </th>
+//                   <th className="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider w-32">
+//                     Item Code
+//                   </th>
+//                   <th className="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+//                     Item Name
+//                   </th>
+//                   <th className="px-4 py-3 text-center text-xs font-bold text-gray-700 uppercase tracking-wider w-24">
+//                     Unit
+//                   </th>
+//                   <th className="px-4 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider w-24">
+//                     Qty
+//                   </th>
+//                   <th className="px-4 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider w-32">
+//                     Rate
+//                   </th>
+//                   <th className="px-4 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider w-32">
+//                     Total
+//                   </th>
+//                   <th className="px-4 py-3 text-center text-xs font-bold text-gray-700 uppercase tracking-wider w-12">
+//                     Del
+//                   </th>
+//                 </tr>
+//               </thead>
+//               <tbody className="divide-y divide-gray-100">
+//                 {items.map((item, index) => (
+//                   <tr
+//                     key={item.id}
+//                     className="hover:bg-blue-50/30 transition-colors duration-150"
+//                   >
+//                     <td className="px-4 py-3 text-center text-sm text-gray-600 font-medium">
+//                       {index + 1}
+//                     </td>
+//                     <td className="px-4 py-3">
+//                       <input
+//                         ref={(el) => (itemCodeRefs.current[index] = el)}
+//                         className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+//                         placeholder="Code..."
+//                         value={item.itemCode}
+//                         onChange={(e) =>
+//                           handleItemChange(item.id, "itemCode", e.target.value)
+//                         }
+//                         onKeyDown={(e) => handleKeyPress(e, index)}
+//                         list={`items-${item.id}`}
+//                       />
+//                       <datalist id={`items-${item.id}`}>
+//                         {MOCK_ITEMS.map((i) => (
+//                           <option key={i.code} value={i.code}>
+//                             {i.name}
+//                           </option>
+//                         ))}
+//                       </datalist>
+//                     </td>
+//                     <td className="px-4 py-3">
+//                       <input
+//                         className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 font-medium text-gray-900"
+//                         placeholder="Item Name..."
+//                         value={item.itemName}
+//                         onChange={(e) =>
+//                           handleItemChange(item.id, "itemName", e.target.value)
+//                         }
+//                         onKeyDown={(e) => handleKeyPress(e, index)}
+//                       />
+//                     </td>
+//                     <td className="px-4 py-3">
+//                       <input
+//                         className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm text-center focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+//                         value={item.unit}
+//                         onChange={(e) =>
+//                           handleItemChange(item.id, "unit", e.target.value)
+//                         }
+//                         onKeyDown={(e) => handleKeyPress(e, index)}
+//                       />
+//                     </td>
+//                     <td className="px-4 py-3">
+//                       <input
+//                         className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm text-right focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+//                         placeholder="0"
+//                         value={item.qty}
+//                         onChange={(e) =>
+//                           handleItemChange(item.id, "qty", e.target.value)
+//                         }
+//                         onKeyDown={(e) => handleKeyPress(e, index)}
+//                       />
+//                     </td>
+//                     <td className="px-4 py-3">
+//                       <input
+//                         className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm text-right focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+//                         placeholder="0.00"
+//                         value={item.rate}
+//                         onChange={(e) =>
+//                           handleItemChange(item.id, "rate", e.target.value)
+//                         }
+//                         onKeyDown={(e) => handleKeyPress(e, index)}
+//                       />
+//                     </td>
+//                     <td className="px-4 py-3 text-right">
+//                       <span className="text-sm font-bold text-gray-900">
+//                         {item.total.toFixed(2)}
+//                       </span>
+//                     </td>
+//                     <td className="px-4 py-3 text-center">
+//                       <button
+//                         onClick={() => removeItem(item.id)}
+//                         className="p-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-all duration-200 hover:scale-110"
+//                         disabled={items.length === 1}
+//                       >
+//                         <Trash2 size={14} />
+//                       </button>
+//                     </td>
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </table>
+//           </div>
+
+//           {/* Add Item Button */}
+//           <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-white border-y border-gray-200">
+//             <button
+//               onClick={addItem}
+//               className="w-full py-3 border-2 border-dashed border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 hover:border-blue-400 transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+//             >
+//               <Plus size={18} />
+//               ADD NEXT ITEM (F2)
+//             </button>
+//           </div>
+
+//           {/* Footer Actions */}
+//           <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-white flex items-center justify-between">
+//             <div className="flex items-center gap-3">
+//               <button
+//                 onClick={handleClear}
+//                 className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-200 flex items-center gap-2"
+//               >
+//                 <RotateCcw size={16} />
+//                 <span className="text-sm font-medium">CLEAR</span>
+//               </button>
+
+//               <button
+//                 onClick={handleLastBill}
+//                 className="px-4 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-100 transition-all duration-200 flex items-center gap-2"
+//               >
+//                 <FileText size={16} />
+//                 <span className="text-sm font-medium">LAST BILL</span>
+//               </button>
+
+//               <button className="p-2 border border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 transition-all duration-200">
+//                 <Printer size={18} />
+//               </button>
+//             </div>
+
+//             <div className="flex items-center gap-4">
+//               <div className="text-right">
+//                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+//                   Items Count
+//                 </p>
+//                 <p className="text-sm font-bold text-gray-900">
+//                   {items.length} Lines
+//                 </p>
+//               </div>
+
+//               <div className="h-12 w-px bg-gray-300"></div>
+
+//               <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl px-6 py-3 min-w-[180px]">
+//                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
+//                   Grand Total
+//                 </p>
+//                 <p className="text-2xl font-bold text-yellow-400">
+//                   ₹ {calculateGrandTotal().toFixed(2)}
+//                 </p>
+//               </div>
+
+//               <button
+//                 onClick={handleSaveAndPrint}
+//                 className="px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2"
+//               >
+//                 <Save size={18} />
+//                 <span className="text-sm font-bold">SAVE & PRINT BILL</span>
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }

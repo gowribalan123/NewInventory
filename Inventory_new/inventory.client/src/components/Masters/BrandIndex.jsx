@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Pencil, Trash2, Tag, Save, RotateCcw } from "lucide-react";
 
 // IMPORTANT: Check your 'dotnet run' output for the correct port (e.g., 7123, 5001, etc.)
@@ -10,11 +10,7 @@ function BrandIndex() {
   const [editId, setEditId] = useState(null);
 
   // ================= LOAD BRANDS =================
-  useEffect(() => {
-    fetchBrands();
-  }, []);
-
-  const fetchBrands = async () => {
+  const fetchBrands = useCallback(async () => {
     try {
       const response = await fetch(API_URL);
       if (response.ok) {
@@ -24,7 +20,11 @@ function BrandIndex() {
     } catch (error) {
       console.error("Error fetching brands:", error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchBrands();
+  }, [fetchBrands]);
 
   // ================= SAVE =================
   const handleSave = async () => {

@@ -65,6 +65,27 @@ import StockAnalysis from './components/View/Stock Report/StockAnalysis.jsx';
 import StockAgeing from './components/View/Stock Report/StockAgeing.jsx';
 import NegativeStockRegister from './components/View/Stock Report/NegativeStockRegister.jsx';
 import ClosingStockInventory from './components/View/Stock Report/ClosingStockInventory.jsx';
+import CreditLimit from './components/Others/CreditLimit.jsx';
+import PaymentLimit from './components/Others/PaymentLimit.jsx';
+import PriceList from './components/Others/PriceList.jsx';
+import PendingAmount from './components/Others/PendingAmount.jsx';
+import Ageing from './components/Others/Ageing.jsx';
+import LedgerList from './components/Others/LedgerList.jsx';
+import ItemView from './components/Others/ItemView.jsx';
+import SalesProfit from './components/Others/SalesProfit.jsx';
+import CustomerView from './components/Others/CustomerView.jsx';
+import SupplierView from './components/Others/SupplierView.jsx';
+import RestoreDatabase from './components/Tools/RestoreDatabase.jsx';
+import ChangePassword from './components/Tools/ChangePassword.jsx';
+import MismatchedAccounts from './components/Tools/MismatchedAccounts.jsx';
+import EventViewer from './components/Tools/EventViewer.jsx';
+import Calculator from './components/Tools/Calculator.jsx';
+import Administrator from './components/Tools/Admin/Administrator.jsx';
+import User from './components/Tools/Admin/User.jsx';
+import UserPrivileges from './components/Tools/Admin/UserPrevileges.jsx';
+
+
+
 
 
 
@@ -84,11 +105,7 @@ function App() {
               <Route path="items" element={<Items />} />
 
 
-
-
-       
-
-               <Route path="purchases" element={<Purchases />} />
+              <Route path="purchases" element={<Purchases />} />
               <Route path="purchases/return" element={<PurchaseReturn />} />
               <Route path="purchases/order" element={<PurchaseOrderIndex />} />
 
@@ -115,7 +132,6 @@ function App() {
               <Route path="operations/sample-receipt" element={<SampleReceiptIndex />} />
               <Route path="operations/quotation" element={<QuotationIndex />} />
               <Route path="operations/stock-receipt-issue" element={<StockReceiptIndex />} />
-              <Route path="operations/stock-transfer" element={<StockTransferIndex />} />
               <Route path="operations/stock-transfer" element={<StockTransferIndex />} />
               <Route path="operations/item-splitup" element={<ItemSplitupIndex />} />
               <Route path="operations/cheque-clearing-bouncing" element={<ChequeClearIndex />} />
@@ -148,13 +164,46 @@ function App() {
               <Route path="view/stock-report/inventory-analysis" element={<InventoryAnalysis />} />
               <Route path="view/stock-report/turnover-summary" element={<TurnoverSummary />} />
               <Route path="view/stock-report/stock-register" element={<StockRegister />} />
-              <Route path="view/stock-report/stock-register" element={<StockRegister />} />
               <Route path="view/stock-report/stock-summary" element={<StockSummary />} />
               <Route path="view/stock-report/stock-analysis" element={<StockAnalysis />} />
               <Route path="view/stock-report/stock-ageing" element={<StockAgeing />} />
               <Route path="view/stock-report/negative-stock-register" element={<NegativeStockRegister />} />
               <Route path="view/stock-report/closing-stock-inventory" element={<ClosingStockInventory />} />
-              
+
+              {/* others section */}
+               <Route path="/others/credit-limit" element={<CreditLimit />} />
+               <Route path="/others/payment-limit" element={<PaymentLimit />} />
+               <Route path="/others/price-list" element={<PriceList />} />
+               <Route path="/others/pending-amount" element={<PendingAmount />} />
+               <Route path="/others/ageing" element={<Ageing />} />
+               <Route path="/others/ledger-list" element={<LedgerList />} />
+               <Route path="/others/item-view" element={<ItemView />} />
+               <Route path="/others/sales-profit" element={<SalesProfit />} />
+               <Route path="/others/customer-view" element={<CustomerView />} />
+                <Route path="/others/supplier-view" element={<SupplierView />} />   
+
+                 {/* TOOLS SECTION */}
+              {/* <Route path="tools/backup" element={<Backup />} /> */}
+              <Route path="tools/restore" element={<RestoreDatabase />} />
+              <Route path="tools/change-password" element={<ChangePassword />} />
+              {/* <Route path="tools/reset-inv-acc" element={<ResetInvAcc />} /> */}
+                <Route path="tools/mismatched-accounts" element={<MismatchedAccounts />} />
+              <Route path="tools/event-viewer" element={<EventViewer />} />
+              <Route path="tools/calculator" element={<Calculator />} />
+
+               {/* Tools - Reset Submenu */}
+              {/* <Route path="tools/reset/cash-voucher" element={<ResetCashVoucher />} />
+              <Route path="tools/reset/bank-voucher" element={<ResetBankVoucher />} />
+              <Route path="tools/reset/journal-voucher" element={<ResetJournalVoucher />} />
+              <Route path="tools/reset/sales-bill-no" element={<ResetSalesBillNo />} /> */}
+
+              /* Tools - Admin Submenu */
+               <Route path="tools/admin/administrator" element={<Administrator />} />
+               <Route path="tools/admin/user" element={<User />} />
+              <Route path="tools/admin/user-privileges" element={<UserPrivileges />} /> 
+           
+
+
               
             
 

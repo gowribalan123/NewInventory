@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 
 const API_URL = "http://localhost:5166/api/Categories";
@@ -12,13 +12,7 @@ function CategoryIndex() {
   const [categoryGroups, setCategoryGroups] = useState([]);
   const [editId, setEditId] = useState(null);
 
-  // ================= LOAD DATA =================
-  useEffect(() => {
-    fetchCategories();
-    fetchCategoryGroups();
-  }, []);
-
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       const response = await fetch(API_URL);
       if (response.ok) {
@@ -28,9 +22,9 @@ function CategoryIndex() {
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
-  };
+  }, []);
 
-  const fetchCategoryGroups = async () => {
+  const fetchCategoryGroups = useCallback(async () => {
     try {
       const response = await fetch(GROUP_API_URL);
       if (response.ok) {
@@ -40,7 +34,13 @@ function CategoryIndex() {
     } catch (error) {
       console.error("Error fetching category groups:", error);
     }
-  };
+  }, []);
+
+  // ================= LOAD DATA =================
+  useEffect(() => {
+    fetchCategories();
+    fetchCategoryGroups();
+  }, [fetchCategories, fetchCategoryGroups]);
 
   // ================= SAVE =================
   const handleSave = async () => {
@@ -53,7 +53,6 @@ function CategoryIndex() {
       let response;
       const payload = {
         categoryName,
-        categoryCode,
         categoryGroupId: parseInt(categoryGroupId)
       };
 

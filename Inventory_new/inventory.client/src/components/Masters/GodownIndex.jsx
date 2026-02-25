@@ -115,8 +115,9 @@ function GodownIndex() {
             </h1>
           </div>
         </div>
-      </header>
+    
 
+        <div>
         <div className="p-2 bg-[#e2ebf8]">
           {/* Form Section */}
           <div className="bg-white p-3 border border-blue-200 rounded shadow-sm mb-2">
@@ -191,6 +192,7 @@ function GodownIndex() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

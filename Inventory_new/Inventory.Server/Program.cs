@@ -16,17 +16,14 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
  
 builder.Services.AddScoped<IBrandService, BrandService>();
-// Inside Program.cs, look for the section where services are added to the container.
-
-// ... existing registrations ...
-builder.Services.AddScoped<IBrandService, BrandService>();
 
 // === ADD THESE LINES ===
 builder.Services.AddScoped<ICategoryGroupService, CategoryGroupService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 // =======================
 
-// ... rest of the file ...
+builder.Services.AddScoped<IDesignationService, DesignationService>();
+
 
  
 builder.Services.AddScoped<IUnitService, UnitService>();

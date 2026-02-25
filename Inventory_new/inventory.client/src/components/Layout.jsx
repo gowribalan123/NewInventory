@@ -27,12 +27,12 @@
 //   const [isOpeningMenuOpen, setIsOpeningMenuOpen] = useState(false);
 //   const [isBillsSubMenuOpen, setIsBillsSubMenuOpen] = useState(false);
 //   const [isPurchaseMenuOpen, setIsPurchaseMenuOpen] = useState(false);
-  
+
 //   // NEW: View section states
 //   const [isViewMenuOpen, setIsViewMenuOpen] = useState(false);
 //   const [isAccountBookSubMenuOpen, setIsAccountBookSubMenuOpen] = useState(false);
 //   const [isStockReportSubMenuOpen, setIsStockReportSubMenuOpen] = useState(false);
-  
+
 //   const [collapsed, setCollapsed] = useState(false);
 //   const location = useLocation();
 
@@ -903,7 +903,7 @@
 //             <a href="#help" className="hover:text-blue-600 transition-colors">
 //               Help
 //             </a>
-            
+
 //              <a href="#privacy" className="hover:text-blue-600 transition-colors">
 //               Privacy
 //             </a>
@@ -915,12 +915,6 @@
 // };
 
 // export default Layout;
-
-
-
-
-
-
 
 import React, { useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
@@ -952,9 +946,16 @@ const Layout = () => {
   const [isBillsSubMenuOpen, setIsBillsSubMenuOpen] = useState(false);
   const [isPurchaseMenuOpen, setIsPurchaseMenuOpen] = useState(false);
   const [isViewMenuOpen, setIsViewMenuOpen] = useState(false);
-  const [isAccountBookSubMenuOpen, setIsAccountBookSubMenuOpen] = useState(false);
-  const [isStockReportSubMenuOpen, setIsStockReportSubMenuOpen] = useState(false);
+  const [isAccountBookSubMenuOpen, setIsAccountBookSubMenuOpen] =
+    useState(false);
+  const [isStockReportSubMenuOpen, setIsStockReportSubMenuOpen] =
+    useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [isOthersMenuOpen, setIsOthersMenuOpen] = useState(false);
+  const [isToolsMenuOpen, setIsToolsMenuOpen] = useState(false);
+  const [isResetOpen, setIsResetOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [isWindowsMenuOpen, setIsWindowsMenuOpen] = useState(false);
   const location = useLocation();
 
   // Enhanced Zoho styling with modern polish
@@ -1021,7 +1022,9 @@ const Layout = () => {
               <Package className="text-[#2C3E50]" size={20} />
             </div>
             <div>
-              <span className="font-bold text-lg text-white tracking-tight">Inventory</span>
+              <span className="font-bold text-lg text-white tracking-tight">
+                Inventory
+              </span>
               <p className="text-xs text-gray-300 -mt-0.5">Management System</p>
             </div>
           </div>
@@ -1075,7 +1078,9 @@ const Layout = () => {
             className={`flex items-center h-12 border-b border-gray-100 shrink-0 bg-gray-50/50 ${collapsed ? "justify-center" : "px-4 justify-between"}`}
           >
             {!collapsed && (
-              <span className="font-semibold text-sm text-gray-700 tracking-tight">MENU</span>
+              <span className="font-semibold text-sm text-gray-700 tracking-tight">
+                MENU
+              </span>
             )}
             <button
               onClick={() => setCollapsed(!collapsed)}
@@ -1124,9 +1129,15 @@ const Layout = () => {
                   {!collapsed && <span className="flex-1">Masters</span>}
                   {!collapsed &&
                     (isMastersMenuOpen ? (
-                      <ChevronDown size={16} className="transition-transform duration-200" />
+                      <ChevronDown
+                        size={16}
+                        className="transition-transform duration-200"
+                      />
                     ) : (
-                      <ChevronRight size={16} className="transition-transform duration-200" />
+                      <ChevronRight
+                        size={16}
+                        className="transition-transform duration-200"
+                      />
                     ))}
                   {collapsed && <div className={tooltipClass}>Masters</div>}
                 </div>
@@ -1134,7 +1145,10 @@ const Layout = () => {
                 {!collapsed && isMastersMenuOpen && (
                   <ul className="mt-1 space-y-0.5 submenu-enter">
                     {[
-                      { to: "/masters/category-groups", label: "Category Groups" },
+                      {
+                        to: "/masters/category-groups",
+                        label: "Category Groups",
+                      },
                       { to: "/masters/categories", label: "Categories" },
                       { to: "/masters/brand-names", label: "Brand Names" },
                       { to: "/masters/items", label: "Items" },
@@ -1179,9 +1193,15 @@ const Layout = () => {
                   {!collapsed && <span className="flex-1">Operations</span>}
                   {!collapsed &&
                     (isOperationsMenuOpen ? (
-                      <ChevronDown size={16} className="transition-transform duration-200" />
+                      <ChevronDown
+                        size={16}
+                        className="transition-transform duration-200"
+                      />
                     ) : (
-                      <ChevronRight size={16} className="transition-transform duration-200" />
+                      <ChevronRight
+                        size={16}
+                        className="transition-transform duration-200"
+                      />
                     ))}
                   {collapsed && <div className={tooltipClass}>Operations</div>}
                 </div>
@@ -1191,21 +1211,41 @@ const Layout = () => {
                     {[
                       { to: "/operations/vouchers", label: "Vouchers" },
                       { to: "/operations/sample-issue", label: "Sample Issue" },
-                      { to: "/operations/sample-receipt", label: "Sample Receipt" },
+                      {
+                        to: "/operations/sample-receipt",
+                        label: "Sample Receipt",
+                      },
                       { to: "/operations/quotation", label: "Quotation" },
-                      { to: "/operations/stock-receipt-issue", label: "Stock Receipt/Issue" },
-                      { to: "/operations/stock-transfer", label: "Stock Transfer" },
+                      {
+                        to: "/operations/stock-receipt-issue",
+                        label: "Stock Receipt/Issue",
+                      },
+                      {
+                        to: "/operations/stock-transfer",
+                        label: "Stock Transfer",
+                      },
                       { to: "/operations/item-splitup", label: "Item Splitup" },
-                      { to: "/operations/cheque-clearing-bouncing", label: "Cheque Clearing/Bouncing" },
-                      { to: "/operations/continuous-bill", label: "Continuous Bill" },
-                      { to: "/operations/missing-bills", label: "Missing Bills" },
+                      {
+                        to: "/operations/cheque-clearing-bouncing",
+                        label: "Cheque Clearing/Bouncing",
+                      },
+                      {
+                        to: "/operations/continuous-bill",
+                        label: "Continuous Bill",
+                      },
+                      {
+                        to: "/operations/missing-bills",
+                        label: "Missing Bills",
+                      },
                     ].map((item) => (
                       <li key={item.to}>
                         <NavLink
                           to={item.to}
                           className={({ isActive }) =>
                             `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
-                              isActive ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]" : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                              isActive
+                                ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                                : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
                             }`
                           }
                         >
@@ -1214,7 +1254,6 @@ const Layout = () => {
                         </NavLink>
                       </li>
                     ))}
-                    
 
                     {/* Opening Submenu */}
                     <li>
@@ -1227,19 +1266,29 @@ const Layout = () => {
                           <span>Opening</span>
                         </div>
                         <span>
-                          {isOpeningMenuOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          {isOpeningMenuOpen ? (
+                            <ChevronDown size={14} />
+                          ) : (
+                            <ChevronRight size={14} />
+                          )}
                         </span>
                       </div>
 
                       {isOpeningMenuOpen && (
                         <ul className="mt-1 space-y-0.5 submenu-enter">
                           <li>
-                            <NavLink to="/operations/opening/ledger-balance" className="block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 transition-all duration-200">
+                            <NavLink
+                              to="/operations/opening/ledger-balance"
+                              className="block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 transition-all duration-200"
+                            >
                               Ledger Balance
                             </NavLink>
                           </li>
                           <li>
-                            <NavLink to="/operations/opening/stock" className="block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 transition-all duration-200">
+                            <NavLink
+                              to="/operations/opening/stock"
+                              className="block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 transition-all duration-200"
+                            >
                               Stock
                             </NavLink>
                           </li>
@@ -1248,23 +1297,35 @@ const Layout = () => {
                           <li>
                             <div
                               className="flex items-center justify-between pl-16 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 cursor-pointer transition-all duration-200"
-                              onClick={() => setIsBillsSubMenuOpen(!isBillsSubMenuOpen)}
+                              onClick={() =>
+                                setIsBillsSubMenuOpen(!isBillsSubMenuOpen)
+                              }
                             >
                               <span>Bills</span>
                               <span>
-                                {isBillsSubMenuOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                {isBillsSubMenuOpen ? (
+                                  <ChevronDown size={14} />
+                                ) : (
+                                  <ChevronRight size={14} />
+                                )}
                               </span>
                             </div>
 
                             {isBillsSubMenuOpen && (
                               <ul className="mt-1 space-y-0.5 submenu-enter">
                                 <li>
-                                  <NavLink to="/operations/opening/bills/sales" className="block pl-20 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-blue-50 transition-all duration-200">
+                                  <NavLink
+                                    to="/operations/opening/bills/sales"
+                                    className="block pl-20 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-blue-50 transition-all duration-200"
+                                  >
                                     Sales
                                   </NavLink>
                                 </li>
                                 <li>
-                                  <NavLink to="/operations/opening/bills/purchase" className="block pl-20 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-blue-50 transition-all duration-200">
+                                  <NavLink
+                                    to="/operations/opening/bills/purchase"
+                                    className="block pl-20 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-blue-50 transition-all duration-200"
+                                  >
                                     Purchase
                                   </NavLink>
                                 </li>
@@ -1273,7 +1334,10 @@ const Layout = () => {
                           </li>
 
                           <li>
-                            <NavLink to="/operations/opening/sales-point" className="block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 transition-all duration-200">
+                            <NavLink
+                              to="/operations/opening/sales-point"
+                              className="block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 transition-all duration-200"
+                            >
                               Sales Point
                             </NavLink>
                           </li>
@@ -1301,7 +1365,17 @@ const Layout = () => {
                   {!collapsed && (
                     <>
                       <span className="flex-1">Purchases</span>
-                      {isPurchaseMenuOpen ? <ChevronDown size={16} className="transition-transform duration-200" /> : <ChevronRight size={16} className="transition-transform duration-200" />}
+                      {isPurchaseMenuOpen ? (
+                        <ChevronDown
+                          size={16}
+                          className="transition-transform duration-200"
+                        />
+                      ) : (
+                        <ChevronRight
+                          size={16}
+                          className="transition-transform duration-200"
+                        />
+                      )}
                     </>
                   )}
                   {collapsed && <div className={tooltipClass}>Purchases</div>}
@@ -1326,7 +1400,10 @@ const Layout = () => {
                             <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
                             <span>{item.label}</span>
                           </div>
-                          <Plus size={16} className="text-gray-400 hover:text-blue-600 transition-colors duration-200" />
+                          <Plus
+                            size={16}
+                            className="text-gray-400 hover:text-blue-600 transition-colors duration-200"
+                          />
                         </NavLink>
                       </li>
                     ))}
@@ -1367,12 +1444,24 @@ const Layout = () => {
                           ? "bg-blue-50 text-[#0052CC] font-semibold"
                           : "text-gray-700 hover:bg-gray-50 hover:text-[#0052CC]"
                       }`}
-                  onClick={() => !collapsed && setIsViewMenuOpen(!isViewMenuOpen)}
+                  onClick={() =>
+                    !collapsed && setIsViewMenuOpen(!isViewMenuOpen)
+                  }
                 >
                   <Eye size={18} />
                   {!collapsed && <span className="flex-1">View</span>}
                   {!collapsed &&
-                    (isViewMenuOpen ? <ChevronDown size={16} className="transition-transform duration-200" /> : <ChevronRight size={16} className="transition-transform duration-200" />)}
+                    (isViewMenuOpen ? (
+                      <ChevronDown
+                        size={16}
+                        className="transition-transform duration-200"
+                      />
+                    ) : (
+                      <ChevronRight
+                        size={16}
+                        className="transition-transform duration-200"
+                      />
+                    ))}
                   {collapsed && <div className={tooltipClass}>View</div>}
                 </div>
 
@@ -1383,7 +1472,9 @@ const Layout = () => {
                         to="/view/balance-sheet"
                         className={({ isActive }) =>
                           `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
-                            isActive ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]" : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                            isActive
+                              ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                              : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
                           }`
                         }
                       >
@@ -1397,7 +1488,9 @@ const Layout = () => {
                         to="/view/pl-account"
                         className={({ isActive }) =>
                           `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
-                            isActive ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]" : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                            isActive
+                              ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                              : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
                           }`
                         }
                       >
@@ -1411,7 +1504,9 @@ const Layout = () => {
                         to="/view/trial-balance"
                         className={({ isActive }) =>
                           `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
-                            isActive ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]" : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                            isActive
+                              ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                              : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
                           }`
                         }
                       >
@@ -1424,36 +1519,77 @@ const Layout = () => {
                     <li>
                       <div
                         className="flex items-center justify-between pl-12 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 cursor-pointer transition-all duration-200"
-                        onClick={() => setIsAccountBookSubMenuOpen(!isAccountBookSubMenuOpen)}
+                        onClick={() =>
+                          setIsAccountBookSubMenuOpen(!isAccountBookSubMenuOpen)
+                        }
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
                           <span>Account Book</span>
                         </div>
                         <span>
-                          {isAccountBookSubMenuOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          {isAccountBookSubMenuOpen ? (
+                            <ChevronDown size={14} />
+                          ) : (
+                            <ChevronRight size={14} />
+                          )}
                         </span>
                       </div>
 
                       {isAccountBookSubMenuOpen && (
                         <ul className="mt-1 space-y-0.5 submenu-enter">
                           {[
-                            { to: "/view/account-book/daily-statement", label: "Daily Statement" },
-                            { to: "/view/account-book/cash-book", label: "Cash Book" },
-                            { to: "/view/account-book/day-book", label: "Day Book", key: "F3" },
-                            { to: "/view/account-book/ledger", label: "Ledger", key: "F12" },
-                            { to: "/view/account-book/cash-flow", label: "Cash Flow", key: "F2" },
-                            { to: "/view/account-book/debitors-creditors", label: "Debitors/Creditors" },
-                            { to: "/view/account-book/group-summary", label: "Group Summary" },
-                            { to: "/view/account-book/journal-book", label: "Journal Book" },
-                            { to: "/view/account-book/yearly-ledger-book", label: "Yearly Ledger Book" },
+                            {
+                              to: "/view/account-book/daily-statement",
+                              label: "Daily Statement",
+                            },
+                            {
+                              to: "/view/account-book/cash-book",
+                              label: "Cash Book",
+                            },
+                            {
+                              to: "/view/account-book/day-book",
+                              label: "Day Book",
+                              key: "F3",
+                            },
+                            {
+                              to: "/view/account-book/ledger",
+                              label: "Ledger",
+                              key: "F12",
+                            },
+                            {
+                              to: "/view/account-book/cash-flow",
+                              label: "Cash Flow",
+                              key: "F2",
+                            },
+                            {
+                              to: "/view/account-book/debitors-creditors",
+                              label: "Debitors/Creditors",
+                            },
+                            {
+                              to: "/view/account-book/group-summary",
+                              label: "Group Summary",
+                            },
+                            {
+                              to: "/view/account-book/journal-book",
+                              label: "Journal Book",
+                            },
+                            {
+                              to: "/view/account-book/yearly-ledger-book",
+                              label: "Yearly Ledger Book",
+                            },
                           ].map((item) => (
                             <li key={item.to}>
                               <NavLink
                                 to={item.to}
                                 className="block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 transition-all duration-200"
                               >
-                                {item.label} {item.key && <span className="text-xs text-gray-400 ml-1">({item.key})</span>}
+                                {item.label}{" "}
+                                {item.key && (
+                                  <span className="text-xs text-gray-400 ml-1">
+                                    ({item.key})
+                                  </span>
+                                )}
                               </NavLink>
                             </li>
                           ))}
@@ -1465,14 +1601,20 @@ const Layout = () => {
                     <li>
                       <div
                         className="flex items-center justify-between pl-12 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 cursor-pointer transition-all duration-200"
-                        onClick={() => setIsStockReportSubMenuOpen(!isStockReportSubMenuOpen)}
+                        onClick={() =>
+                          setIsStockReportSubMenuOpen(!isStockReportSubMenuOpen)
+                        }
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
                           <span>Stock Report</span>
                         </div>
                         <span>
-                          {isStockReportSubMenuOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                          {isStockReportSubMenuOpen ? (
+                            <ChevronDown size={14} />
+                          ) : (
+                            <ChevronRight size={14} />
+                          )}
                         </span>
                       </div>
 
@@ -1498,7 +1640,9 @@ const Layout = () => {
                                 to={`/view/stock-report/${label.toLowerCase().replace(/ /g, "-")}`}
                                 className={({ isActive }) =>
                                   `block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
-                                    isActive ? "bg-blue-50 text-[#0052CC] font-medium" : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50"
+                                    isActive
+                                      ? "bg-blue-50 text-[#0052CC] font-medium"
+                                      : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50"
                                   }`
                                 }
                               >
@@ -1512,6 +1656,471 @@ const Layout = () => {
                   </ul>
                 )}
               </li>
+
+              {/* Others Menu */}
+
+              <ul>
+                <li>
+                  <div
+                    className={`flex items-center gap-3 px-4 py-2.5 rounded-lg mx-2 cursor-pointer transition-all duration-300 group relative text-sm
+      ${
+        location.pathname.startsWith("/others")
+          ? "bg-blue-50 text-[#0052CC] font-semibold"
+          : "text-gray-700 hover:bg-gray-50 hover:text-[#0052CC]"
+      }`}
+                    onClick={() =>
+                      !collapsed && setIsOthersMenuOpen(!isOthersMenuOpen)
+                    }
+                  >
+                    <Grid size={18} />{" "}
+                    {/* Using Grid icon to match Zoho's "More/Others" vibe */}
+                    {!collapsed && <span className="flex-1">Others</span>}
+                    {!collapsed &&
+                      (isOthersMenuOpen ? (
+                        <ChevronDown
+                          size={16}
+                          className="transition-transform duration-200"
+                        />
+                      ) : (
+                        <ChevronRight
+                          size={16}
+                          className="transition-transform duration-200"
+                        />
+                      ))}
+                    {collapsed && <div className={tooltipClass}>Others</div>}
+                  </div>
+
+                  {!collapsed && isOthersMenuOpen && (
+                    <ul className="mt-1 space-y-0.5 submenu-enter">
+                      {[
+                        { to: "/others/credit-limit", label: "Credit Limit" },
+                        { to: "/others/payment-limit", label: "Payment Limit" },
+                        { to: "/others/price-list", label: "Price List" },
+                        {
+                          to: "/others/pending-amount",
+                          label: "Pending Amount",
+                        },
+                        { to: "/others/ageing", label: "Ageing" },
+                        {
+                          to: "/others/ledger-list",
+                          label: "Ledger List",
+                          shortcut: "Ctrl+L",
+                        },
+                        { to: "/others/item-view", label: "Item View" },
+                        { to: "/others/sales-profit", label: "Sales Profit" },
+                        { to: "/others/customer-view", label: "Customer View" },
+                        { to: "/others/supplier-view", label: "Supplier View" },
+                      ].map((item) => (
+                        <li key={item.to}>
+                          <NavLink
+                            to={item.to}
+                            className={({ isActive }) =>
+                              `flex items-center justify-between pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 
+              ${isActive ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]" : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50"}`
+                            }
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                              <span>{item.label}</span>
+                            </div>
+                            {item.shortcut && (
+                              <span className="text-[10px] text-gray-400 font-mono">
+                                {item.shortcut}
+                              </span>
+                            )}
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+
+                {/*  */}
+              </ul>
+
+              <ul>
+                {/* TOOLS SECTION */}
+                <li>
+                  <div
+                    className={`flex items-center gap-3 px-4 py-2.5 rounded-lg mx-2 cursor-pointer transition-all duration-300 group relative text-sm
+      ${
+        location.pathname.startsWith("/tools")
+          ? "bg-blue-50 text-[#0052CC] font-semibold border-l-4 border-[#0052CC]"
+          : "text-gray-700 hover:bg-gray-50 hover:text-[#0052CC]"
+      }`}
+                    onClick={() =>
+                      !collapsed && setIsToolsMenuOpen(!isToolsMenuOpen)
+                    }
+                  >
+                    <Settings size={18} />
+                    {!collapsed && <span className="flex-1">Tools</span>}
+                    {!collapsed &&
+                      (isToolsMenuOpen ? (
+                        <ChevronDown
+                          size={16}
+                          className="transition-transform duration-200"
+                        />
+                      ) : (
+                        <ChevronRight
+                          size={16}
+                          className="transition-transform duration-200"
+                        />
+                      ))}
+                    {collapsed && <div className={tooltipClass}>Tools</div>}
+                  </div>
+
+                  {!collapsed && isToolsMenuOpen && (
+                    <ul className="mt-1 space-y-0.5 submenu-enter">
+                      {/* Backup */}
+                      <li>
+                        <NavLink
+                          to="/tools/backup"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                              isActive
+                                ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                                : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                            }`
+                          }
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                          Backup
+                        </NavLink>
+                      </li>
+
+                      {/* Restore */}
+                      <li>
+                        <NavLink
+                          to="/tools/restore"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                              isActive
+                                ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                                : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                            }`
+                          }
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                          Restore
+                        </NavLink>
+                      </li>
+
+                      {/* Change Password */}
+                      <li>
+                        <NavLink
+                          to="/tools/change-password"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                              isActive
+                                ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                                : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                            }`
+                          }
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                          Change Password
+                        </NavLink>
+                      </li>
+
+                      {/* Reset Inv & Acc */}
+                      <li>
+                        <NavLink
+                          to="/tools/reset-inv-acc"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                              isActive
+                                ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                                : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                            }`
+                          }
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                          Reset Inv & Acc
+                        </NavLink>
+                      </li>
+
+                      {/* RESET SUBMENU */}
+                      <li>
+                        <div
+                          onClick={() => setIsResetOpen(!isResetOpen)}
+                          className="flex items-center justify-between pl-12 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 cursor-pointer transition-all duration-200"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                            <span>Reset</span>
+                          </div>
+                          {isResetOpen ? (
+                            <ChevronDown
+                              size={14}
+                              className="transition-transform duration-200"
+                            />
+                          ) : (
+                            <ChevronRight
+                              size={14}
+                              className="transition-transform duration-200"
+                            />
+                          )}
+                        </div>
+
+                        {isResetOpen && (
+                          <ul className="mt-1 space-y-0.5 submenu-enter">
+                            <li>
+                              <NavLink
+                                to="/tools/reset/cash-voucher"
+                                className={({ isActive }) =>
+                                  `block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                                    isActive
+                                      ? "text-[#0052CC] font-medium bg-blue-50"
+                                      : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50"
+                                  }`
+                                }
+                              >
+                                Cash Voucher
+                              </NavLink>
+                            </li>
+                            <li>
+                              <NavLink
+                                to="/tools/reset/bank-voucher"
+                                className={({ isActive }) =>
+                                  `block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                                    isActive
+                                      ? "text-[#0052CC] font-medium bg-blue-50"
+                                      : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50"
+                                  }`
+                                }
+                              >
+                                Bank Voucher
+                              </NavLink>
+                            </li>
+                            <li>
+                              <NavLink
+                                to="/tools/reset/journal-voucher"
+                                className={({ isActive }) =>
+                                  `block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                                    isActive
+                                      ? "text-[#0052CC] font-medium bg-blue-50"
+                                      : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50"
+                                  }`
+                                }
+                              >
+                                Journal Voucher
+                              </NavLink>
+                            </li>
+                            <li>
+                              <NavLink
+                                to="/tools/reset/sales-bill-no"
+                                className={({ isActive }) =>
+                                  `block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                                    isActive
+                                      ? "text-[#0052CC] font-medium bg-blue-50"
+                                      : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50"
+                                  }`
+                                }
+                              >
+                                Reset Sales BillNo
+                              </NavLink>
+                            </li>
+                          </ul>
+                        )}
+                      </li>
+
+                      {/* ADMIN SUBMENU */}
+                      <li>
+                        <div
+                          onClick={() => setIsAdminOpen(!isAdminOpen)}
+                          className="flex items-center justify-between pl-12 pr-4 py-2 mx-2 rounded-lg text-sm text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 cursor-pointer transition-all duration-200"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                            <span>Admin</span>
+                          </div>
+                          {isAdminOpen ? (
+                            <ChevronDown
+                              size={14}
+                              className="transition-transform duration-200"
+                            />
+                          ) : (
+                            <ChevronRight
+                              size={14}
+                              className="transition-transform duration-200"
+                            />
+                          )}
+                        </div>
+
+                        {isAdminOpen && (
+                          <ul className="mt-1 space-y-0.5 submenu-enter">
+                            <li>
+                              <NavLink
+                                to="/tools/admin/administrator"
+                                className={({ isActive }) =>
+                                  `block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                                    isActive
+                                      ? "text-[#0052CC] font-medium bg-blue-50"
+                                      : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50"
+                                  }`
+                                }
+                              >
+                                Administrator
+                              </NavLink>
+                            </li>
+                            <li>
+                              <NavLink
+                                to="/tools/admin/user"
+                                className={({ isActive }) =>
+                                  `block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                                    isActive
+                                      ? "text-[#0052CC] font-medium bg-blue-50"
+                                      : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50"
+                                  }`
+                                }
+                              >
+                                User
+                              </NavLink>
+                            </li>
+                            <li>
+                              <NavLink
+                                to="/tools/admin/user-privileges"
+                                className={({ isActive }) =>
+                                  `block pl-16 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                                    isActive
+                                      ? "text-[#0052CC] font-medium bg-blue-50"
+                                      : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50"
+                                  }`
+                                }
+                              >
+                                UserPrivileges
+                              </NavLink>
+                            </li>
+                          </ul>
+                        )}
+                      </li>
+
+                      {/* Mismatched Accounts */}
+                      <li>
+                        <NavLink
+                          to="/tools/mismatched-accounts"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                              isActive
+                                ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                                : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                            }`
+                          }
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                          Mismatched Accounts
+                        </NavLink>
+                      </li>
+
+                      {/* Event Viewer */}
+                      <li>
+                        <NavLink
+                          to="/tools/event-viewer"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                              isActive
+                                ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                                : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                            }`
+                          }
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                          Event Viewer
+                        </NavLink>
+                      </li>
+
+                      {/* Calculator */}
+                      <li>
+                        <NavLink
+                          to="/tools/calculator"
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 ${
+                              isActive
+                                ? "bg-blue-50 text-[#0052CC] font-medium border-l-4 border-[#0052CC]"
+                                : "text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1"
+                            }`
+                          }
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                          Calculator
+                        </NavLink>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+              </ul>
+
+              <ul>
+                {/* WINDOWS SECTION */}
+                  <li>
+                    <div
+                      className={`flex items-center gap-3 px-4 py-2.5 rounded-lg mx-2 cursor-pointer transition-all duration-300 group relative text-sm
+                        ${location.pathname.startsWith("/windows") 
+                          ? "bg-blue-50 text-[#0052CC] font-semibold border-l-4 border-[#0052CC]" 
+                          : "text-gray-700 hover:bg-gray-50 hover:text-[#0052CC]"}`}
+                      onClick={() => !collapsed && setIsWindowsMenuOpen(!isWindowsMenuOpen)}
+                    >
+                      <LayoutDashboard size={18} />
+                      {!collapsed && <span className="flex-1">Windows</span>}
+                      {!collapsed && (
+                        isWindowsMenuOpen ? (
+                          <ChevronDown size={16} className="transition-transform duration-200" />
+                        ) : (
+                          <ChevronRight size={16} className="transition-transform duration-200" />
+                        )
+                      )}
+                      {collapsed && <div className={tooltipClass}>Windows</div>}
+                    </div>
+
+                    {!collapsed && isWindowsMenuOpen && (
+                      <ul className="mt-1 space-y-0.5 submenu-enter">
+                        {/* Cascade */}
+                        <li>
+                          <button
+                            onClick={() => alert('Cascade windows - Feature coming soon')}
+                            className="w-full flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1 text-left"
+                          >
+                            <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                            Cascade
+                          </button>
+                        </li>
+
+                        {/* Tile Horizontally */}
+                        <li>
+                          <button
+                            onClick={() => alert('Tile Horizontally - Feature coming soon')}
+                            className="w-full flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1 text-left"
+                          >
+                            <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                            Tile Horizontally
+                          </button>
+                        </li>
+
+                        {/* Tile Vertically */}
+                        <li>
+                          <button
+                            onClick={() => alert('Tile Vertically - Feature coming soon')}
+                            className="w-full flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1 text-left"
+                          >
+                            <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                            Tile Vertically
+                          </button>
+                        </li>
+
+                        {/* Close All */}
+                        <li>
+                          <button
+                            onClick={() => alert('Close All - Feature coming soon')}
+                            className="w-full flex items-center gap-3 pl-12 pr-4 py-2 mx-2 rounded-lg text-sm transition-all duration-200 text-gray-600 hover:text-[#0052CC] hover:bg-gray-50 hover:translate-x-1 text-left"
+                          >
+                            <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                            Close All
+                          </button>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+              </ul>
 
               <li>
                 <NavLink to="/reports" className={getNavItemClass}>
@@ -1539,10 +2148,17 @@ const Layout = () => {
                   <User className="text-white" size={18} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-gray-900 truncate">Admin User</p>
-                  <p className="text-xs text-gray-500 truncate">admin@solid.com</p>
+                  <p className="text-sm font-semibold text-gray-900 truncate">
+                    Admin User
+                  </p>
+                  <p className="text-xs text-gray-500 truncate">
+                    admin@solid.com
+                  </p>
                 </div>
-                <Settings className="text-gray-400 group-hover:text-blue-600 transition-colors duration-200" size={16} />
+                <Settings
+                  className="text-gray-400 group-hover:text-blue-600 transition-colors duration-200"
+                  size={16}
+                />
               </div>
             </div>
           )}
@@ -1558,8 +2174,6 @@ const Layout = () => {
 };
 
 export default Layout;
-
-
 
 // import React, { useState } from "react";
 // import { Outlet, NavLink, useLocation } from "react-router-dom";
